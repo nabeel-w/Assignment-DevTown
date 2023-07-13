@@ -320,8 +320,14 @@ router.patch("/c", verifyToken, async (req, res) => {
                 // Listen for process exit
                 runProcess.on('close', (code) => {
                     // Delete the temporary file
-                    fs.unlinkSync(cFilePath);
-                    fs.unlink(`./${id}.exe`, (err) => {
+                    fs.unlinkSync(cFilePath)
+                    .then(()=>{console.log("success");})
+                    .catch((err) => {
+                        if (err) console.log("Error", err);
+                    });
+                    fs.unlink(`./${id}`)
+                    .then(()=>{console.log("success");})
+                    .catch((err) => {
                         if (err) console.log("Error", err);
                     });
                     if (code === 0) {
