@@ -11,7 +11,6 @@ const PORT=process.env.PORT||5000;
 const app=express();
 //const corsOptions = {origin: ['http://localhost:3000/']};
 //app.use(cors( {origin: ['http://localhost:3000']}));
-//mongodb+srv://admin-nabeel:N@beel3112@cluster0.3jl39cv.mongodb.net/?retryWrites=true&w=majority
 
 const mongoLink=process.env.MONGO_LINK||"mongodb://127.0.0.1:27017/judgeDB";
 
@@ -20,10 +19,10 @@ mongoose.connect(mongoLink, {useNewUrlParser: true});
 app.use("/auth",authRoute);
 app.use("/code",codeRoute);
 
-app.use(express.static(path.join(__dirname, "./client/build")));
+app.use(express.static(path.join(__dirname, "./build")));
 
 app.get("*", function (req, res) {
-  res.sendFile(path.join(__dirname, "./client/build/index.html"));
+  res.sendFile(path.join(__dirname, "./build/index.html"));
 });
 
 app.listen(PORT,()=>{
