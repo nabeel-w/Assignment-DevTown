@@ -62,7 +62,7 @@ router.post('/python', verifyToken, async (req, res) => {
     let codeOutput = '';
     let codeError = '';
     const codeId = await updateDatabase(id, code, "python");
-    const pythonProcess = spawn('python', ['-c', code, ...commandLineArgs]);
+    const pythonProcess = spawn('python3', ['-c', code, ...commandLineArgs]);
     // Listen for Python process output
     pythonProcess.stdout.on('data', (data) => {
         codeOutput += data;
@@ -106,7 +106,7 @@ router.post('/c', verifyToken, async (req, res) => {
     gccProcess.on('close', (data) => {
         //console.log(data);
         if (data === 0) {
-            const runProcess = spawn(path.join(__dirname,`./${id}`));
+            const runProcess = spawn(path.join(__dirname, "../", `./${id}`));
             // Listen for C program output
             runProcess.stdout.on('data', (data) => {
                 codeOutput += data;
@@ -121,7 +121,7 @@ router.post('/c', verifyToken, async (req, res) => {
             runProcess.on('close', (code) => {
                 // Delete the temporary file
                 fs.unlinkSync(cFilePath);
-                fs.unlink(path.join(__dirname,`./${id}`), (err) => {
+                fs.unlink(path.join(__dirname, "../", `./${id}`), (err) => {
                     if (err) console.log("Error", err);
                 });
                 if (code === 0) {
@@ -160,7 +160,7 @@ router.post('/cpp', verifyToken, async (req, res) => {
     gppProcess.on('close', (data) => {
         //console.log(data);
         if (data === 0) {
-            const runProcess = spawn(path.join(__dirname,`./${id}`));
+            const runProcess = spawn(path.join(__dirname, "../", `./${id}`));
             // Listen for C program output
             runProcess.stdout.on('data', (data) => {
                 codeOutput += data;
@@ -175,7 +175,7 @@ router.post('/cpp', verifyToken, async (req, res) => {
             runProcess.on('close', (code) => {
                 // Delete the temporary file
                 fs.unlinkSync(cppFilePath);
-                fs.unlink(path.join(__dirname,`./${id}`), (err) => {
+                fs.unlink(path.join(__dirname, "../", `./${id}`), (err) => {
                     if (err) console.log("Error", err);
                 });
                 if (code === 0) {
@@ -261,7 +261,7 @@ router.patch("/python", verifyToken, async (req, res) => {
     if (updated.modifiedCount === 0&&updated.matchedCount===0) {
         res.status(404).json({ message: "Object not found!" })
     } else {
-        const pythonProcess = spawn('python', ['-c', code, ...commandLineArgs]);
+        const pythonProcess = spawn('python3', ['-c', code, ...commandLineArgs]);
         // Listen for Python process output
         pythonProcess.stdout.on('data', (data) => {
             codeOutput += data;
@@ -307,7 +307,7 @@ router.patch("/c", verifyToken, async (req, res) => {
         gccProcess.on('close', (data) => {
             //console.log(data);
             if (data === 0) {
-                const runProcess = spawn(path.join(__dirname,`./${id}`));
+                const runProcess = spawn(path.join(__dirname, "../", `./${id}`));
                 // Listen for C program output
                 runProcess.stdout.on('data', (data) => {
                     codeOutput += data;
@@ -326,7 +326,7 @@ router.patch("/c", verifyToken, async (req, res) => {
                     .catch((err) => {
                         if (err) console.log("Error", err);
                     });
-                    fs.unlink(path.join(__dirname,`./${id}`))
+                    fs.unlink(path.join(__dirname, "../", `./${id}`))
                     .then(()=>{console.log("success");})
                     .catch((err) => {
                         if (err) console.log("Error", err);
@@ -372,7 +372,7 @@ router.patch("/cpp", verifyToken, async (req, res) => {
         gppProcess.on('close', (data) => {
             //console.log(data);
             if (data === 0) {
-                const runProcess = spawn(path.join(__dirname,`./${id}`));
+                const runProcess = spawn(path.join(__dirname, "../",`./${id}`));
                 // Listen for C program output
                 runProcess.stdout.on('data', (data) => {
                     codeOutput += data;
@@ -387,7 +387,7 @@ router.patch("/cpp", verifyToken, async (req, res) => {
                 runProcess.on('close', (code) => {
                     // Delete the temporary file
                     fs.unlinkSync(cppFilePath);
-                    fs.unlink(path.join(__dirname,`./${id}`), (err) => {
+                    fs.unlink(path.join(__dirname, "../",`./${id}`), (err) => {
                         if (err) console.log("Error", err);
                     });
                     if (code === 0) {
